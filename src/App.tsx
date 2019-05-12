@@ -1,26 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components'
+import { Toolbar, Container, NavLink } from './components';
+import Home from './pages/Home';
+import theme from './theme';
+
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <Toolbar
+            bg="dark1"
+            color="light2"
+            title="Party Manager"
+          >
+            <NavLink to="/" exact bg="dark1" p={2}>Accueil</NavLink>
+          </Toolbar>
+          <Container>
+            <Switch>
+              <Route path="/" exact component={Home} />
+            </Switch>
+          </Container>
+        </BrowserRouter>
+    </ThemeProvider>
+  )
 }
 
 export default App;
