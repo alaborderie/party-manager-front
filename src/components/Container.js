@@ -3,7 +3,7 @@ import { Box, Flex } from 'rebass';
 import styled from 'styled-components';
 
 const FullscreenFlex = styled(Flex)`
-  min-height: calc(100vh - 48px)
+  min-height: calc(100vh - 48px);
 `;
 
 function Container({ children, xs, sm, md, lg }) {
