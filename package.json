@@ -10,13 +10,16 @@
     "@types/react-router-dom": "^4.3.3",
     "@types/rebass": "^3.0.3",
     "@types/styled-components": "^4.1.14",
+    "@types/yup": "^0.26.13",
+    "formik": "^1.5.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.1",
     "rebass": "^3.1.0",
     "styled-components": "^4.2.0",
-    "typescript": "3.4.5"
+    "typescript": "3.4.5",
+    "yup": "^0.27.0"
   },
   "scripts": {
     "start": "react-scripts start",
