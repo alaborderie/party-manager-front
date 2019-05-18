@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink as Link } from 'react-router-dom';
-import IconButton from './Button';
+import Button from './Button';
 
 interface NavLinkProps {
   to: string;
@@ -21,10 +21,9 @@ function NavLink(props: NavLinkProps) {
     setIsActive(active);
     return active;
   }
-  // @ts-ignore
   return (
     <Link to={props.to} exact={props.exact} isActive={isLinkActive}>
-      <IconButton {...props} isActive={isActive}>{props.children}</IconButton>
+      <Button {...props} isActive={isActive}>{props.children}</Button>
     </Link>
   )
 }

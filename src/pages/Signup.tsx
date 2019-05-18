@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik, Form, Field, FormikProps, FormikActions } from 'formik';
-import { FormField, IconButton } from '../components';
+import { FormField, Button } from '../components';
 import * as Yup from 'yup';
 
 interface SignupInterface {
@@ -59,7 +59,7 @@ function Signup() {
             <br />
             <Field label="Confirmation du mot de passe" placeholder="Sup3r_MDP_5392!" type="password" name="confirmPassword" component={FormField} />
             <br />
-            <IconButton type="submit" disabled={!isValid}>CONFIRMER</IconButton>
+            <Button type="submit" disabled={!isValid}>CONFIRMER</Button>
           </Form>
         )}
       </Formik>
