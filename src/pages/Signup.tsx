@@ -4,7 +4,8 @@ import { FormField, IconButton } from '../components';
 import * as Yup from 'yup';
 
 interface SignupInterface {
-  displayName: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -12,16 +13,18 @@ interface SignupInterface {
 
 function Signup() {
   const schema = Yup.object().shape({
-    displayName: Yup.string()
-      .required('A display name is required.'),
+    firstName: Yup.string()
+      .required('Un prénom est requis.'),
+    lastName: Yup.string()
+        .required('Un nom de famille est requis.'),
     email: Yup.string()
-      .email('Email is not valid.')
-      .required('An email adress is required'),
+      .email('L\'email est invalide.')
+      .required('Une adresse email est requise.'),
     password: Yup.string()
-      .min(8, 'Password is too short - 8 characters minimum.')
-      .required('A password is required'),
+      .min(8, 'Le mot de passe est trop court - 8 caractères minimum.')
+      .required('Un mot de passe est requis.'),
     confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), ''], 'Passwords don\'t match')
+      .oneOf([Yup.ref('password'), ''], 'Les mots de passes ne correspondent pas.')
   });
 
   function handleSubmit(values: SignupInterface, actions: FormikActions<SignupInterface>) {
@@ -35,7 +38,8 @@ function Signup() {
       <h1>Créez votre compte Party Manager !</h1>
       <Formik
         initialValues={{
-          displayName: '',
+          firstName: '',
+          lastName: '',
           email: '',
           password: '',
           confirmPassword: ''
@@ -43,9 +47,11 @@ function Signup() {
         validationSchema={schema}
         onSubmit={handleSubmit}
       >
-        {({ errors, touched, isValid, handleSubmit }: FormikProps<SignupInterface>) => (
+        {({ isValid }: FormikProps<SignupInterface>) => (
           <Form>
-            <Field label="Pseudo" placeholder="Prénom Nom" type="text" name="displayName" component={FormField} />
+            <Field label="Prénom" placeholder="Prénom" type="text" name="firstName" component={FormField} />
+            <br />
+            <Field label="Nom de famille" placeholder="Nom de famille" type="text" name="lastName" component={FormField} />
             <br />
             <Field label="Email" placeholder="example@gmail.com" type="text" name="email" component={FormField} />
             <br />
