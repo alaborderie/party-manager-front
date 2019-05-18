@@ -2,14 +2,15 @@ import styled from 'styled-components';
 import { Button } from 'rebass';
 import { withTheme } from 'styled-components';
 
-interface IconButtonProps {
+export interface IconButtonProps {
   theme: any;
-  rounded: boolean | undefined;
-  textAlign: string;
-  selectableContent: boolean | undefined;
+  rounded?: boolean | undefined;
+  textAlign?: string;
+  selectableContent?: boolean | undefined;
   color: string;
   bg: string;
-  isActive: boolean;
+  isActive?: boolean;
+  [propName: string]: any;
 }
 
 const IconButton = styled(Button)`
@@ -35,6 +36,7 @@ const IconButton = styled(Button)`
   color: ${(props: IconButtonProps) => props.isActive && props.theme.colors[props.bg]};
 `;
 
+// @ts-ignore
 IconButton.defaultProps = {
   ...Button.defaultProps,
   color: 'light2',

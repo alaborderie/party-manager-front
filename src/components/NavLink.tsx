@@ -4,8 +4,9 @@ import IconButton from './Button';
 
 interface NavLinkProps {
   to: string;
-  exact: boolean | undefined;
+  exact?: boolean | undefined;
   children: any;
+  [propName: string]: any;
 }
 
 function NavLink(props: NavLinkProps) {
