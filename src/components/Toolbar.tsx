@@ -1,7 +1,14 @@
 import React from 'react';
 import { Flex, Box } from 'rebass';
 
-const Toolbar = props => {
+interface ToolbarProps {
+  color: string;
+  bg: string;
+  title: string;
+  children: any;
+}
+
+const Toolbar = (props: ToolbarProps) => {
   return (
     <Flex
       px={2}
@@ -26,6 +33,6 @@ const Toolbar = props => {
       </Box>
     </Flex>
   );
-}
+};
 
 export default Toolbar;

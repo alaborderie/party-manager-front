@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Text, Flex } from 'rebass';
 import styled, { withTheme } from 'styled-components';
 
-const BoxInput = styled(Box)(props => ({
+const BoxInput = styled(Box)((props: any) => ({
   transition: 'background .1s ease-out',
   resize: props.resize,
   border: 0,
@@ -24,25 +24,47 @@ const BoxInput = styled(Box)(props => ({
   },
 }));
 
-const Label = styled(Text)(props => ({
+const Label = styled(Text)((props: LabelProps) => ({
   transition: 'opacity .2s ease-out',
   color: props.theme.colors[props.color],
   filter: 'brightness(70%)',
   opacity: props.visible ? 1 : 0
-}))
+}));
 
-function Input(props) {
+interface LabelProps {
+  color: string;
+  visible: boolean;
+  fontSize: number;
+  theme: any;
+}
+
+interface InputProps {
+  xs: number;
+  sm: number;
+  md: number;
+  lg: number;
+  color: string;
+  bg: string;
+  label: string;
+  as: any;
+  onFocus: Function;
+  onBlur: Function;
+  theme: any;
+  resize: string;
+}
+
+function Input(props: InputProps) {
   const { xs, sm, md, lg, color, label, as } = props;
   const [visible, setVisible] = useState(true);
 
-  function handleOnFocus(e) {
+  function handleOnFocus(e: React.FocusEvent) {
     setVisible(false);
     if (props.onFocus) {
       props.onFocus(e);
     }
   }
 
-  function handleOnBlur(e) {
+  function handleOnBlur(e: React.FocusEvent) {
     setVisible(true);
     if (props.onBlur) {
       props.onBlur(e);
@@ -73,6 +95,6 @@ Input.defaultProps = {
   fontSize: 2,
   as: 'input',
   resize: 'none'
-}
+};
 
 export default withTheme(Input);
