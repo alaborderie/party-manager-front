@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik, Form, Field, FormikProps, FormikActions } from 'formik';
-import { FormField, Button } from '../components';
+import {FormField, Button, Toast} from '../components';
 import * as Yup from 'yup';
 
 interface SignupInterface {
@@ -28,9 +28,12 @@ function Signup() {
   });
 
   function handleSubmit(values: SignupInterface, actions: FormikActions<SignupInterface>) {
-    console.log(values);
     actions.setSubmitting(false);
     actions.resetForm();
+    Toast.fire({
+      title: 'Compte créé !',
+      type: 'success'
+    });
   }
 
   return (
