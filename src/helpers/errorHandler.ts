@@ -1,9 +1,9 @@
-export function handleAxiosError(err: any) {
+export function handleAuthError(err: any) {
   if (err.response) {
   //  Error comes from server
     switch(err.response.status) {
       case 404:
-        return 'Cette ressource n\'existe pas.';
+        return 'Email et/ou mot de passe erroné.';
       case 403:
         return 'Vous n\'avez pas les droits nécessaires.';
       default:

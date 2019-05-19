@@ -3,7 +3,7 @@ import { Formik, Form, Field, FormikProps, FormikActions } from 'formik';
 import {FormField, Button, Toast} from '../components';
 import * as Yup from 'yup';
 import {UserContext, IUserContext} from "../contexts/UserContext";
-import {handleAxiosError} from "../helpers/errorHandler";
+import {handleAuthError} from "../helpers/errorHandler";
 import {Redirect} from "react-router";
 
 interface SigninInterface {
@@ -39,7 +39,7 @@ function Signin() {
         });
       }
     } catch(err) {
-      const title = handleAxiosError(err);
+      const title = handleAuthError(err);
       console.error(err);
       Toast.fire({
         title,
