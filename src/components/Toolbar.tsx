@@ -72,7 +72,7 @@ const Toolbar = (props: ToolbarProps) => {
     >
       <Box
         p={3}
-        width={[0.5, 0.5, 0.3, 0.3]}
+        width={[0.75, 0.75, 0.3, 0.3]}
       >
         <h3>{props.title}</h3>
       </Box>

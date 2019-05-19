@@ -40,7 +40,6 @@ function Signin() {
       }
     } catch(err) {
       const title = handleAuthError(err);
-      console.error(err);
       Toast.fire({
         title,
         type: 'error'

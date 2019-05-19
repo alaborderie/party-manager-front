@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components'
 import axios from 'axios';
@@ -9,6 +9,7 @@ import {IUserContext, UserContext} from "./contexts/UserContext";
 import {allRoutes, IRoute, loggedInRoutes, loggedOutRoutes, routes} from "./routes";
 import ErrorBoundary from "./components/ErrorBoundary";
 import {getUserData} from "./helpers/api";
+import {handleAuthError} from "./helpers/errorHandler";
 
 interface IUser {
   email: string;
@@ -17,11 +18,21 @@ interface IUser {
 
 const App: React.FC = () => {
   const [user, setUser] = useState<IUserContext | null>(null);
+
+  useEffect(() => {
+    getUserFromLocalStorage();
+  }, []);
+
   async function signIn(values: IUser) {
     try {
       const {data: { data }} = await axios.post('http://localhost:4000/api/login', { session: values});
       const {first_name, last_name, email} = await getUserData(data.user_id, data.token);
-      setUser({...data, firstName: first_name, lastName: last_name, email});
+      const newUser = {...data, firstName: first_name, lastName: last_name, email};
+      setUser(newUser);
+      localStorage.setItem('partyManagerUser', JSON.stringify({
+        token: data.token,
+        id: data.user_id
+      }));
     } catch(err) {
       throw err;
     }
@@ -29,6 +40,19 @@ const App: React.FC = () => {
 
   function signOut() {
     setUser(null);
+  }
+
+  async function getUserFromLocalStorage() {
+    const userJSON: string | null = localStorage.getItem('partyManagerUser');
+    if (userJSON) {
+      const userInfo = JSON.parse(userJSON);
+      try {
+        const newUser = await getUserData(userInfo.id, userInfo.token);
+        setUser({...newUser, token: userInfo.token});
+      } catch(err) {
+        handleAuthError(err);
+      }
+    }
   }
 
   function renderRouteLink(route: IRoute) {
@@ -39,6 +63,7 @@ const App: React.FC = () => {
     return (
       <Route
         path={route.to}
+        key={route.to}
         exact={route.exact}
         render={props =>
           <ErrorBoundary>
