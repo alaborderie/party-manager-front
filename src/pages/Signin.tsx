@@ -4,46 +4,32 @@ import {FormField, Button, Toast} from '../components';
 import * as Yup from 'yup';
 import axios from 'axios';
 
-interface SignupInterface {
-  firstName: string;
-  lastName: string;
+interface SigninInterface {
   email: string;
   password: string;
-  confirmPassword: string;
 }
 
-function Signup() {
+function Signin() {
   const schema = Yup.object().shape({
-    firstName: Yup.string()
-      .required('Un prénom est requis.'),
-    lastName: Yup.string()
-        .required('Un nom de famille est requis.'),
     email: Yup.string()
       .email('L\'email est invalide.')
       .required('Une adresse email est requise.'),
     password: Yup.string()
       .min(8, 'Le mot de passe est trop court - 8 caractères minimum.')
       .required('Un mot de passe est requis.'),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), ''], 'Les mots de passes ne correspondent pas.')
   });
 
-  async function handleSubmit(values: SignupInterface, actions: FormikActions<SignupInterface>) {
+  async function handleSubmit(values: SigninInterface, actions: FormikActions<SigninInterface>) {
     actions.setSubmitting(false);
     try {
-      if (values.password !== values.confirmPassword) {
-        throw new Error('Les mots de passes ne correspondent pas.');
-      }
-      const { data } = await axios.post('http://localhost:4000/api/subscribe', {
-        first_name: values.firstName,
-        last_name: values.lastName,
+      const { data } = await axios.post('http://localhost:4000/users', {
         email: values.email,
         password: values.password
       });
       actions.resetForm();
       console.log(data);
       Toast.fire({
-        title: 'Compte créé !',
+        title: 'Connecté avec succès !',
         type: 'success'
       });
     } catch(err) {
@@ -58,29 +44,20 @@ function Signup() {
 
   return (
     <div>
-      <h1>Créez votre compte Party Manager !</h1>
+      <h1>Connexion</h1>
       <Formik
         initialValues={{
-          firstName: '',
-          lastName: '',
           email: '',
           password: '',
-          confirmPassword: ''
         }}
         validationSchema={schema}
         onSubmit={handleSubmit}
       >
-        {({ isValid }: FormikProps<SignupInterface>) => (
+        {({ isValid }: FormikProps<SigninInterface>) => (
           <Form>
-            <Field label="Prénom" placeholder="Prénom" type="text" name="firstName" component={FormField} />
-            <br />
-            <Field label="Nom de famille" placeholder="Nom de famille" type="text" name="lastName" component={FormField} />
-            <br />
             <Field label="Email" placeholder="example@gmail.com" type="text" name="email" component={FormField} />
             <br />
             <Field label="Mot de passe" placeholder="Mot de passe" type="password" name="password" component={FormField} />
-            <br />
-            <Field label="Confirmation du mot de passe" placeholder="Encore une fois" type="password" name="confirmPassword" component={FormField} />
             <br />
             <Button type="submit" disabled={!isValid}>CONFIRMER</Button>
           </Form>
@@ -90,4 +67,4 @@ function Signup() {
   )
 }
 
-export default Signup;
+export default Signin;
