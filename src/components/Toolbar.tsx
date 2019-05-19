@@ -84,20 +84,18 @@ const Toolbar = (props: ToolbarProps) => {
         </DesktopBar>
         <MobileBar alignItems="center" justifyContent="flex-end">
           <Button onClick={handleClickMenu}>&#9776;</Button>
-          <LinksList collapsed={collapsed} flexDirection="column" alignItems="center">
-            <React.Fragment>
-              {React.Children.map(props.children, child => (
-                <Box p={3} onClick={handleClickMenu}>{child}</Box>
-              ))}
-              <CloseButton
-                onClick={handleClickMenu}
-                bg="light2"
-                color="dark0"
-                fontSize={3}
-              >
-                &times;
-              </CloseButton>
-            </React.Fragment>
+          <LinksList collapsed={collapsed} flexDirection="column" flexWrap="" alignItems="center">
+            {React.Children.map(props.children, child => (
+              <Box p={3} onClick={handleClickMenu}>{child}</Box>
+            ))}
+            <CloseButton
+              onClick={handleClickMenu}
+              bg="light2"
+              color="dark0"
+              fontSize={3}
+            >
+              &times;
+            </CloseButton>
           </LinksList>
         </MobileBar>
       </Box>
