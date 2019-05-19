@@ -41,7 +41,7 @@ const LinksList: React.FC<LinksListProps> = styled(Flex)`
   transition: width 0.5s, opacity 0.2s;
   background: ${props => props.theme.colors.light2};
   color: ${props => props.theme.colors.dark0};
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 1;
