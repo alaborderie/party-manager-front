@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Formik, Form, Field, FormikProps, FormikActions } from 'formik';
 import {FormField, Button, Toast} from '../components';
 import * as Yup from 'yup';
 import axios from 'axios';
+import {UserContext} from "../contexts/UserContext";
+import {Redirect} from "react-router";
 
 interface SignupInterface {
   firstName: string;
@@ -13,6 +15,8 @@ interface SignupInterface {
 }
 
 function Signup() {
+  const user = useContext(UserContext);
+
   const schema = Yup.object().shape({
     firstName: Yup.string()
       .required('Un prénom est requis.'),
@@ -34,18 +38,22 @@ function Signup() {
       if (values.password !== values.confirmPassword) {
         throw new Error('Les mots de passes ne correspondent pas.');
       }
-      const { data } = await axios.post('http://localhost:4000/api/subscribe', {
-        first_name: values.firstName,
-        last_name: values.lastName,
-        email: values.email,
-        password: values.password
+      await axios.post('http://localhost:4000/api/subscribe', {
+        user: {
+          first_name: values.firstName,
+          last_name: values.lastName,
+          email: values.email,
+          password: values.password
+        }
       });
       actions.resetForm();
-      console.log(data);
       Toast.fire({
         title: 'Compte créé !',
         type: 'success'
       });
+      if (user && user.signIn) {
+        await user.signIn({ email: values.email, password: values.password });
+      }
     } catch(err) {
       console.log(err);
       Toast.fire({
@@ -54,6 +62,10 @@ function Signup() {
       });
     }
 
+  }
+
+  if (user && user.token) {
+    return <Redirect to="/account" />
   }
 
   return (

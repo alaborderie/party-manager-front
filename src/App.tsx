@@ -7,6 +7,8 @@ import theme from './theme';
 import { Toolbar, Container, NavLink } from './components';
 import {IUserContext, UserContext} from "./contexts/UserContext";
 import {allRoutes, IRoute, loggedInRoutes, loggedOutRoutes, routes} from "./routes";
+import ErrorBoundary from "./components/ErrorBoundary";
+import {getUserData} from "./helpers/api";
 
 interface IUser {
   email: string;
@@ -17,9 +19,9 @@ const App: React.FC = () => {
   const [user, setUser] = useState<IUserContext | null>(null);
   async function signIn(values: IUser) {
     try {
-      const {data} = await axios.post('http://localhost:4000/api/login', { session: values});
-      console.log(data);
-      setUser(data);
+      const {data: { data }} = await axios.post('http://localhost:4000/api/login', { session: values});
+      const {first_name, last_name, email} = await getUserData(data.user_id, data.token);
+      setUser({...data, firstName: first_name, lastName: last_name, email});
     } catch(err) {
       throw err;
     }
@@ -34,7 +36,17 @@ const App: React.FC = () => {
   }
 
   function renderRoute(route: IRoute) {
-    return <Route path={route.to} key={route.to} exact={route.exact} component={route.component} />
+    return (
+      <Route
+        path={route.to}
+        exact={route.exact}
+        render={props =>
+          <ErrorBoundary>
+            <route.component {...props} />
+          </ErrorBoundary>
+        }
+      />
+    );
   }
 
   return (

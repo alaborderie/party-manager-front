@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Formik, Form, Field, FormikProps, FormikActions } from 'formik';
 import {FormField, Button, Toast} from '../components';
 import * as Yup from 'yup';
-import axios from 'axios';
+import {UserContext, IUserContext} from "../contexts/UserContext";
+import {handleAxiosError} from "../helpers/errorHandler";
+import {Redirect} from "react-router";
 
 interface SigninInterface {
   email: string;
@@ -10,6 +12,7 @@ interface SigninInterface {
 }
 
 function Signin() {
+  const user = useContext<IUserContext | null>(UserContext);
   const schema = Yup.object().shape({
     email: Yup.string()
       .email('L\'email est invalide.')
@@ -22,26 +25,32 @@ function Signin() {
   async function handleSubmit(values: SigninInterface, actions: FormikActions<SigninInterface>) {
     actions.setSubmitting(false);
     try {
-      const { data } = await axios.post('http://localhost:4000/users', {
-        email: values.email,
-        password: values.password
-      });
-      actions.resetForm();
-      console.log(data);
-      Toast.fire({
-        title: 'Connecté avec succès !',
-        type: 'success'
-      });
+      if (user && user.signIn) {
+        await user.signIn(values);
+        actions.resetForm();
+        Toast.fire({
+          title: 'Connecté avec succès !',
+          type: 'success'
+        });
+      } else {
+        Toast.fire({
+          title: 'Erreur : UserContext est nul.',
+          type: 'error'
+        });
+      }
     } catch(err) {
-      console.log(err);
+      const title = handleAxiosError(err);
+      console.error(err);
       Toast.fire({
-        title: err.toString(),
+        title,
         type: 'error'
       });
     }
-
   }
 
+  if (user && user.token) {
+    return <Redirect to="/account" />
+  }
   return (
     <div>
       <h1>Connexion</h1>
