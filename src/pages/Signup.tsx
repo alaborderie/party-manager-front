@@ -2,6 +2,7 @@ import React from 'react';
 import { Formik, Form, Field, FormikProps, FormikActions } from 'formik';
 import {FormField, Button, Toast} from '../components';
 import * as Yup from 'yup';
+import axios from 'axios';
 
 interface SignupInterface {
   firstName: string;
@@ -27,13 +28,32 @@ function Signup() {
       .oneOf([Yup.ref('password'), ''], 'Les mots de passes ne correspondent pas.')
   });
 
-  function handleSubmit(values: SignupInterface, actions: FormikActions<SignupInterface>) {
+  async function handleSubmit(values: SignupInterface, actions: FormikActions<SignupInterface>) {
     actions.setSubmitting(false);
-    actions.resetForm();
-    Toast.fire({
-      title: 'Compte créé !',
-      type: 'success'
-    });
+    try {
+      if (values.password !== values.confirmPassword) {
+        throw new Error('Les mots de passes ne correspondent pas.');
+      }
+      const { data } = await axios.post('http://localhost:4000/users', {
+        first_name: values.firstName,
+        last_name: values.lastName,
+        email: values.email,
+        password: values.password
+      });
+      actions.resetForm();
+      console.log(data);
+      Toast.fire({
+        title: 'Compte créé !',
+        type: 'success'
+      });
+    } catch(err) {
+      console.log(err);
+      Toast.fire({
+        title: err.toString(),
+        type: 'error'
+      });
+    }
+
   }
 
   return (
