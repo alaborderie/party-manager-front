@@ -43,6 +43,7 @@ const App: React.FC = () => {
 
   function signOut() {
     setUser(null);
+    localStorage.removeItem('partyManagerUser');
   }
 
   async function getUserFromLocalStorage() {
