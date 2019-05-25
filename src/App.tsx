@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components'
 import axios from 'axios';
-import defaultTheme from './theme';
+import defaultTheme, {darkColors, lightColors} from './theme';
 
 import { Toolbar, Container, NavLink } from './components';
 import {IUserContext, UserContext} from "./contexts/UserContext";
@@ -21,7 +21,9 @@ const App: React.FC = () => {
   const [user, setUser] = useState<IUserContext | null>(null);
   const [theme, setTheme] = useState<IThemeContext | null>(defaultTheme);
   useEffect(() => {
-    getUserFromLocalStorage();
+    getThemeFromLocalStorage();
+    getUserFromLocalStorage()
+      .catch(console.error);
   }, []);
 
   async function signIn(values: IUser) {
@@ -53,6 +55,15 @@ const App: React.FC = () => {
       } catch(err) {
         handleAuthError(err);
       }
+    }
+  }
+
+  function getThemeFromLocalStorage() {
+    const themeJSON: string | null = localStorage.getItem('partyManagerTheme');
+    if (themeJSON) {
+      const isDarkTheme = JSON.parse(themeJSON);
+      const colors = isDarkTheme ? darkColors : lightColors;
+      setTheme({...defaultTheme, colors});
     }
   }
 

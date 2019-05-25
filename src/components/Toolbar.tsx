@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Flex, Box } from 'rebass';
 import styled from 'styled-components';
 import Toggle from 'react-toggle';
@@ -60,8 +60,13 @@ const CloseButton: React.FC<CloseButtonProps> = styled(Button)`
 
 const Toolbar = (props: ToolbarProps) => {
   const [collapsed, setCollapsed] = useState(true);
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
 
-  function handleClickMenu(e: React.MouseEvent) {
+  useEffect(() => {
+    getThemeFromLocalStorage();
+  }, []);
+
+  function handleClickMenu() {
     setCollapsed(!collapsed);
   }
 
@@ -70,6 +75,17 @@ const Toolbar = (props: ToolbarProps) => {
     const colors = checked ? darkColors : lightColors;
     const newTheme = {...theme, colors};
     props.setTheme(newTheme);
+    localStorage.setItem('partyManagerTheme', JSON.stringify(checked));
+    setIsDarkTheme(checked);
+  }
+
+  function getThemeFromLocalStorage() {
+    const themeJSON: string | null = localStorage.getItem('partyManagerTheme');
+    if (themeJSON) {
+      const isDark = JSON.parse(themeJSON);
+      console.log(isDark);
+      setIsDarkTheme(isDark);
+    }
   }
 
   return (
@@ -95,6 +111,7 @@ const Toolbar = (props: ToolbarProps) => {
           <Flex p={3} alignItems='center'>
             <div style={{ marginRight: '5px' }}>Mode sombre</div>
             <Toggle
+              checked={isDarkTheme}
               icons={false}
               onChange={changeTheme}
             />
@@ -109,6 +126,7 @@ const Toolbar = (props: ToolbarProps) => {
             <Flex p={3} alignItems='center'>
               <div style={{ marginRight: '5px' }}>Mode sombre</div>
               <Toggle
+                checked={isDarkTheme}
                 icons={false}
                 onChange={changeTheme}
               />
