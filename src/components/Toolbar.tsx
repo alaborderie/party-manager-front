@@ -83,7 +83,6 @@ const Toolbar = (props: ToolbarProps) => {
     const themeJSON: string | null = localStorage.getItem('partyManagerTheme');
     if (themeJSON) {
       const isDark = JSON.parse(themeJSON);
-      console.log(isDark);
       setIsDarkTheme(isDark);
     }
   }

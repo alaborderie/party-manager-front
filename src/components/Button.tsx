@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { Button } from 'rebass';
+import { Button as RebassButton } from 'rebass';
 import { withTheme } from 'styled-components';
 
-export interface IconButtonProps {
+export interface ButtonProps {
   theme: any;
   rounded?: boolean | undefined;
   textAlign?: string;
@@ -13,32 +13,32 @@ export interface IconButtonProps {
   [propName: string]: any;
 }
 
-const IconButton = styled(Button)`
-  border-radius: ${(props: IconButtonProps) => props.rounded ? 5 : 0};
-  text-align: ${(props: IconButtonProps) => props.textAlign};
-  user-select: ${(props: IconButtonProps) => props.selectableContent ? 'auto' : 'none'};
+const Button = styled(RebassButton)`
+  border-radius: ${(props: ButtonProps) => props.rounded ? 5 : 0};
+  text-align: ${(props: ButtonProps) => props.textAlign};
+  user-select: ${(props: ButtonProps) => props.selectableContent ? 'auto' : 'none'};
   outline: 0;
   transition: transform .1s ease-out, background .2s ease;
   &:hover {
     cursor: pointer;
     transform: scale(1.1);
-    border: 1px solid ${(props: IconButtonProps) => props.theme.colors[props.color]};
+    border: 1px solid ${(props: ButtonProps) => props.theme.colors[props.color]};
   };
   &:active {
-    background: ${(props: IconButtonProps) => props.theme.colors[props.color]};
-    color: ${(props: IconButtonProps) => props.theme.colors[props.bg]};
+    background: ${(props: ButtonProps) => props.theme.colors[props.color]};
+    color: ${(props: ButtonProps) => props.theme.colors[props.bg]};
   };
   :disabled {
     opacity: 0.65;
     cursor: not-allowed;
   };
-  background: ${(props: IconButtonProps) => props.isActive && props.theme.colors[props.color]};
-  color: ${(props: IconButtonProps) => props.isActive && props.theme.colors[props.bg]};
+  background: ${(props: ButtonProps) => props.isActive && props.theme.colors[props.color]};
+  color: ${(props: ButtonProps) => props.isActive && props.theme.colors[props.bg]};
 `;
 
 // @ts-ignore
-IconButton.defaultProps = {
-  ...Button.defaultProps,
+Button.defaultProps = {
+  ...RebassButton.defaultProps,
   color: 'secondary2',
   bg: 'primary1',
   selectableContent: false,
@@ -46,4 +46,4 @@ IconButton.defaultProps = {
   rounded: false
 };
 
-export default withTheme(IconButton);
+export default withTheme(Button);

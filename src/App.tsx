@@ -11,6 +11,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import {getUserData} from "./helpers/api";
 import {handleAuthError} from "./helpers/errorHandler";
 import {IThemeContext} from "./contexts/ThemeContext";
+import Spinner from "./components/Spinner";
 
 interface IUser {
   email: string;
@@ -18,11 +19,13 @@ interface IUser {
 }
 
 const App: React.FC = () => {
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<IUserContext | null>(null);
   const [theme, setTheme] = useState<IThemeContext | null>(defaultTheme);
   useEffect(() => {
     getThemeFromLocalStorage();
     getUserFromLocalStorage()
+      .then(() => setLoading(false))
       .catch(console.error);
   }, []);
 
@@ -87,6 +90,18 @@ const App: React.FC = () => {
     );
   }
 
+  function renderNavlinks() {
+    let links = routes;
+    if (!loading) {
+      if (user) {
+        links = links.concat(loggedInRoutes);
+      } else {
+        links = links.concat(loggedOutRoutes);
+      }
+    }
+    return links.map(renderRouteLink)
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <UserContext.Provider value={{...user, signIn, signOut}}>
@@ -97,17 +112,11 @@ const App: React.FC = () => {
             title="Party Manager"
             setTheme={setTheme}
           >
-            {routes.map(renderRouteLink)}
-            {
-              user
-                ? loggedInRoutes.map(renderRouteLink)
-                : loggedOutRoutes.map(renderRouteLink)
-            }
-
+            {renderNavlinks()}
           </Toolbar>
           <Container>
             <Switch>
-              {allRoutes.map(renderRoute)}
+              {loading ? <Spinner /> : allRoutes.map(renderRoute)}
             </Switch>
           </Container>
         </BrowserRouter>

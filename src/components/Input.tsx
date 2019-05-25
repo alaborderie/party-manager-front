@@ -39,23 +39,26 @@ interface LabelProps {
 }
 
 interface InputProps {
-  xs: number;
-  sm: number;
-  md: number;
-  lg: number;
-  color: string;
-  bg: string;
-  label: string;
-  as: any;
-  onFocus: Function;
-  onBlur: Function;
+  xs?: number;
+  sm?: number;
+  md?: number;
+  lg?: number;
+  color?: string;
+  bg?: string;
+  label?: string;
+  as?: any;
+  onFocus?: Function;
+  onBlur?: Function;
+  onChange?: Function;
   theme: any;
-  resize: string;
+  resize?: string;
+  value?: any;
 }
 
 function Input(props: InputProps) {
   const { xs, sm, md, lg, color, label, as } = props;
   const [visible, setVisible] = useState(true);
+  const width: any = [xs, sm, md, lg];
 
   function handleOnFocus(e: React.FocusEvent) {
     setVisible(false);
@@ -71,17 +74,24 @@ function Input(props: InputProps) {
     }
   }
 
+  function handleOnChange(e: React.FormEvent) {
+    if (props.onChange) {
+      props.onChange(e);
+    }
+  }
+
   return (
-    <Flex flexDirection="column" width={[xs, sm, md, lg]}>
+    <Flex flexDirection="column" width={width}>
       {label && (
-        <Label color={color} fontSize={1} visible={visible}>{label}</Label>
+        <Label color={color || ''} fontSize={1} visible={visible}>{label}</Label>
       )}
       <BoxInput
         {...props}
         as={as}
-        width={[xs, sm, md, lg]}
+        width={width}
         onFocus={handleOnFocus}
         onBlur={handleOnBlur}
+        onChange={handleOnChange}
       />
     </Flex>
   )
@@ -89,6 +99,9 @@ function Input(props: InputProps) {
 
 Input.defaultProps = {
   xs: 1,
+  sm: 1,
+  md: 1,
+  lg: 1,
   color: 'secondary2',
   bg: 'primary0',
   p: 2,
