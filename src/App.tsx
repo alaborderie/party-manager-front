@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components'
 import axios from 'axios';
-import theme from './theme';
+import defaultTheme from './theme';
 
 import { Toolbar, Container, NavLink } from './components';
 import {IUserContext, UserContext} from "./contexts/UserContext";
@@ -10,6 +10,7 @@ import {allRoutes, IRoute, loggedInRoutes, loggedOutRoutes, routes} from "./rout
 import ErrorBoundary from "./components/ErrorBoundary";
 import {getUserData} from "./helpers/api";
 import {handleAuthError} from "./helpers/errorHandler";
+import {IThemeContext} from "./contexts/ThemeContext";
 
 interface IUser {
   email: string;
@@ -18,7 +19,7 @@ interface IUser {
 
 const App: React.FC = () => {
   const [user, setUser] = useState<IUserContext | null>(null);
-
+  const [theme, setTheme] = useState<IThemeContext | null>(defaultTheme);
   useEffect(() => {
     getUserFromLocalStorage();
   }, []);
@@ -56,7 +57,7 @@ const App: React.FC = () => {
   }
 
   function renderRouteLink(route: IRoute) {
-    return <NavLink to={route.to} key={route.to} exact={route.exact} bg="dark1" p={2}>{route.title}</NavLink>;
+    return <NavLink to={route.to} key={route.to} exact={route.exact} bg="primary1" p={2}>{route.title}</NavLink>;
   }
 
   function renderRoute(route: IRoute) {
@@ -79,9 +80,10 @@ const App: React.FC = () => {
       <UserContext.Provider value={{...user, signIn, signOut}}>
         <BrowserRouter>
           <Toolbar
-            bg="dark1"
-            color="light2"
+            bg="primary1"
+            color="secondary2"
             title="Party Manager"
+            setTheme={setTheme}
           >
             {routes.map(renderRouteLink)}
             {
@@ -100,6 +102,6 @@ const App: React.FC = () => {
       </UserContext.Provider>
     </ThemeProvider>
   )
-}
+};
 
 export default App;

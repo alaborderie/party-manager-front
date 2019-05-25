@@ -31,8 +31,8 @@ Container.defaultProps = {
   sm: 0.75,
   md: 0.5,
   lg: 0.3,
-  bg: 'dark0',
-  color: 'light2',
+  bg: 'primary0',
+  color: 'secondary2',
 };
 
 export default Container;

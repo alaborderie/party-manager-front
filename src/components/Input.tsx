@@ -89,8 +89,8 @@ function Input(props: InputProps) {
 
 Input.defaultProps = {
   xs: 1,
-  color: 'light2',
-  bg: 'dark0',
+  color: 'secondary2',
+  bg: 'primary0',
   p: 2,
   fontSize: 2,
   as: 'input',

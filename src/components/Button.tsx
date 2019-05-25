@@ -39,8 +39,8 @@ const IconButton = styled(Button)`
 // @ts-ignore
 IconButton.defaultProps = {
   ...Button.defaultProps,
-  color: 'light2',
-  bg: 'dark1',
+  color: 'secondary2',
+  bg: 'primary1',
   selectableContent: false,
   textAlign: 'center',
   rounded: false
