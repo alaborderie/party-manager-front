@@ -15,7 +15,7 @@ export interface GroupInterface {
   background_img?: string;
 }
 
-function CreateGroup() {
+function CreateGroup(props: any) {
   const [loading, setLoading] = useState(false);
   const [uploadedFile, setUploadedFile] = useState<String | ArrayBuffer | null>();
   const user = useContext(UserContext);
@@ -45,6 +45,7 @@ function CreateGroup() {
           title: 'Groupe créé !',
           type: 'success'
         });
+        props.callback()
       } catch(err) {
         console.error(err);
         Toast.fire({

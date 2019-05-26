@@ -2,7 +2,7 @@ import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import Account from "./pages/Account";
-import Parties from "./pages/Parties";
+import Groups from "./pages/Groups";
 
 export interface IRoute {
   exact?: boolean;
@@ -16,7 +16,7 @@ export const routes: Array<IRoute> = [
 ];
 
 export const loggedInRoutes: Array<IRoute> = [
-  { to: '/party', title: 'Party!', component: Parties },
+  { to: '/party', title: 'Party!', component: Groups },
   { to: '/account', title: 'Mon compte', component: Account },
 ];
 
