@@ -7,7 +7,7 @@ export function handleAuthError(err: any) {
       case 403:
         return 'Vous n\'avez pas les droits nécessaires.';
       default:
-        return err.response;
+        return err.toString();
     }
   } else {
     return err.toString();
