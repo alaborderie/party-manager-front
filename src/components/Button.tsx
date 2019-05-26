@@ -14,7 +14,7 @@ export interface ButtonProps {
 }
 
 const Button = styled(RebassButton)`
-  border-radius: ${(props: ButtonProps) => props.rounded ? 5 : 0};
+  border-radius: ${(props: ButtonProps) => props.rounded ? 30 : 0};
   text-align: ${(props: ButtonProps) => props.textAlign};
   user-select: ${(props: ButtonProps) => props.selectableContent ? 'auto' : 'none'};
   outline: 0;

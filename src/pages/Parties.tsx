@@ -3,7 +3,8 @@ import {UserContext} from "../contexts/UserContext";
 import {Redirect} from "react-router";
 import {Input, Button} from "../components";
 import {Flex} from "rebass";
-import CreateEvent from "../components/CreateEvent";
+import CreateGroup from "../components/CreateGroup";
+import {FaPlus} from "react-icons/fa";
 
 function Parties() {
   const [search, setSearch] = useState('');
@@ -29,7 +30,7 @@ function Parties() {
           color="success"
           onClick={handleClickCreateParty}
         >
-          +
+          <FaPlus color="success" />
         </Button>
       </Flex>
       {create && (
@@ -37,7 +38,7 @@ function Parties() {
           <br />
           <hr />
           <br />
-          <CreateEvent/>
+          <CreateGroup/>
           <br />
           <hr />
           <br />
