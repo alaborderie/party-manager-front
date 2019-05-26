@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useContext, useEffect, useState} from 'react';
 import {UserContext} from "../contexts/UserContext";
 import {Redirect} from "react-router";
@@ -17,7 +18,8 @@ function Groups() {
 
   useEffect(() => {
     // Fetch groups
-    fetchGroups();
+    fetchGroups()
+      .catch(err => Toast.fire({ title: err.toString(), type: 'error' }));
   }, []);
 
   async function fetchGroups() {

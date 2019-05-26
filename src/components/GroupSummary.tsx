@@ -1,30 +1,45 @@
 import React from 'react';
-import {Box, Flex} from "rebass";
+import {Box} from "rebass";
 import styled from "styled-components";
 import {GroupInterface} from "./CreateGroup";
+import Button from "./Button";
 
 const ImageContainer = styled(Box)`
-flex-basis: 20%;
+flex-basis: 30%;
 flex-grow: 0;
+overflow: hidden;
+box-shadow: 0 0 10px #000;
+
+img {
+  height: auto;
+  max-width: 100%;
+}
 `;
 
 const ContentContainer = styled(Box)`
-flex-basis: 80%;
+flex-basis: 70%;
 display: flex;
 flex-direction: column;
+padding: 10px;
 `;
 
-function GroupSummary(prop: GroupInterface) {
+const GroupContainer = styled(Button)`
+margin: 10px 0;
+display: flex;
+flex-direction: row;
+`;
+
+function GroupSummary(props: GroupInterface) {
   return (
-    <Flex flexDirection="row">
+    <GroupContainer flexDirection="row" bg="secondary2" color="primary0">
       <ImageContainer>
-        <img style={{ maxWidth: '100%' }} alt="background_img" src={prop.background_img} />
+        <img alt="background_img" src={props.background_img} />
       </ImageContainer>
       <ContentContainer>
-        <h3>{prop.name}</h3>
-        <p>{prop.description}</p>
+        <h3>{props.name}</h3>
+        <p style={{ textAlign: 'start' }}>{props.description}</p>
       </ContentContainer>
-    </Flex>
+    </GroupContainer>
   )
 }
 
