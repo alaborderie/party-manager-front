@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import { Formik, Form, Field, FormikProps, FormikActions } from 'formik';
-import {FormField, Button, Toast} from '../components';
+import {FormField, Button, Toast, Container} from '../components';
 import * as Yup from 'yup';
 import axios from 'axios';
 import {UserContext} from "../contexts/UserContext";
@@ -69,7 +69,7 @@ function Signup() {
   }
 
   return (
-    <div>
+    <Container>
       <h1>Créez votre compte Party Manager !</h1>
       <Formik
         initialValues={{
@@ -98,7 +98,7 @@ function Signup() {
           </Form>
         )}
       </Formik>
-    </div>
+    </Container>
   )
 }
 

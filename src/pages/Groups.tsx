@@ -2,7 +2,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {UserContext} from "../contexts/UserContext";
 import {Redirect} from "react-router";
-import {Input, Button, Toast} from "../components";
+import {Input, Button, Toast, Container} from "../components";
 import {Flex} from "rebass";
 import CreateGroup, {GroupInterface} from "../components/CreateGroup";
 import {FaPlus} from "react-icons/fa";
@@ -10,7 +10,7 @@ import {api} from "../helpers/api";
 import Spinner from "../components/Spinner";
 import GroupSummary from "../components/GroupSummary";
 
-function Groups() {
+function Groups(props: any) {
   const [search, setSearch] = useState('');
   const [create, setCreate] = useState(false);
   const [groups, setGroups] = useState<Array<any> | null>(null);
@@ -51,12 +51,16 @@ function Groups() {
     }
   }
 
+  function handleClickGroup(id: string) {
+    props.history.push('/group/' + id);
+  }
+
   if (!user || !user.token) {
     return <Redirect to="/signin" />
   }
 
   return (
-    <div>
+    <Container>
       <h1>Trouvez un groupe à rejoindre !</h1>
       <Flex>
         <Input label="Recherche" value={search} onChange={handleChangeSearch} />
@@ -82,10 +86,10 @@ function Groups() {
       )}
       {groups === null ? <Spinner /> : (
         groups.filter(filterGroups).map(group => (
-          <GroupSummary {...group} key={group.id} />
+          <GroupSummary {...group} key={group.id} onClick={() => handleClickGroup(group.id)} />
         ))
       )}
-    </div>
+    </Container>
   )
 }
 

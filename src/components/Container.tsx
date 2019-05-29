@@ -6,6 +6,20 @@ const FullscreenFlex = styled(Flex)`
   min-height: calc(100vh - 48px);
 `;
 
+const BackgroundImage = styled.img`
+  position: absolute;
+  opacity: 0.5;
+  top: 48px;
+  left: 0;
+  height: calc(100% - 48px);
+  width: 100%;
+  z-index: 0;
+`;
+
+const Content = styled(Box)`
+z-index: 1;
+`;
+
 interface ContainerProps {
   xs: number;
   sm: number;
@@ -14,14 +28,27 @@ interface ContainerProps {
   bg: string;
   color: string;
   children: any;
+  style?: any;
+  background_img?: string;
 }
 
-function Container({ children, xs, sm, md, lg, bg, color }: ContainerProps) {
+function Container({ children, xs, sm, md, lg, bg, color, style, background_img }: ContainerProps) {
   return (
-    <FullscreenFlex flexDirection="column" bg={bg} color={color} alignItems="center" p={2} width={1}>
-      <Box width={[xs, sm, md, lg]}>
+    <FullscreenFlex
+      flexDirection="column"
+      bg={bg}
+      color={color}
+      alignItems="center"
+      p={2}
+      width={1}
+      style={style}
+    >
+      {background_img && (
+        <BackgroundImage src={background_img} />
+      )}
+      <Content width={[xs, sm, md, lg]}>
         {children}
-      </Box>
+      </Content>
     </FullscreenFlex>
   )
 }

@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import { Formik, Form, Field, FormikProps, FormikActions } from 'formik';
-import {FormField, Button, Toast} from '../components';
+import {FormField, Button, Toast, Container} from '../components';
 import * as Yup from 'yup';
 import {UserContext, IUserContext} from "../contexts/UserContext";
 import {handleAuthError} from "../helpers/errorHandler";
@@ -51,7 +51,7 @@ function Signin() {
     return <Redirect to="/account" />
   }
   return (
-    <div>
+    <Container>
       <h1>Connexion</h1>
       <Formik
         initialValues={{
@@ -71,7 +71,7 @@ function Signin() {
           </Form>
         )}
       </Formik>
-    </div>
+    </Container>
   )
 }
 

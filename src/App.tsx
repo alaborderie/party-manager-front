@@ -4,7 +4,7 @@ import { ThemeProvider } from 'styled-components'
 import axios from 'axios';
 import defaultTheme, {darkColors, lightColors} from './theme';
 
-import { Toolbar, Container, NavLink } from './components';
+import { Toolbar, NavLink } from './components';
 import {IUserContext, UserContext} from "./contexts/UserContext";
 import {allRoutes, IRoute, loggedInRoutes, loggedOutRoutes, routes} from "./routes";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -114,11 +114,9 @@ const App: React.FC = () => {
           >
             {renderNavlinks()}
           </Toolbar>
-          <Container>
-            <Switch>
-              {loading ? <Spinner /> : allRoutes.map(renderRoute)}
-            </Switch>
-          </Container>
+          <Switch>
+            {loading ? <Spinner /> : allRoutes.map(renderRoute)}
+          </Switch>
         </BrowserRouter>
       </UserContext.Provider>
     </ThemeProvider>

@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API = 'http://localhost:4000/api';
+// const API = 'http://localhost:4000/api';
+const API = `${window.location.protocol}//${window.location.hostname}:4000/api`
 
 export function api(token: string) {
   return axios.create({

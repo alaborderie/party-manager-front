@@ -41,8 +41,9 @@ const MobileBar = styled(Flex)`
 const LinksList: React.FC<LinksListProps> = styled(Flex)`
   height: 100vh;
   opacity: ${(props: any) => props.collapsed ? 0 : 1};
+  visibility: ${(props: any) => props.collapsed ? 'hidden' : 'visible'};
   width: ${(props: any) => props.collapsed ? 0 : '100vw'};
-  transition: width 0.5s, opacity 0.2s;
+  transition: width 0.4s, opacity 0.3s, visibility 0.3s;
   background: ${props => props.theme.colors.primary1};
   color: ${props => props.theme.colors.secondary2};
   position: fixed;
@@ -102,7 +103,7 @@ const Toolbar = (props: ToolbarProps) => {
       >
         <h3>{props.title}</h3>
       </Box>
-      <Box p={3} width={[0, 0, 0.7, 0.9]}>
+      <Box p={3} width={[0, 0, 0.7, 0.9]} style={{ zIndex: 2 }}>
         <DesktopBar alignItems="center" justifyContent="flex-end">
           {React.Children.map(props.children, child => (
             <Box p={3}>{child}</Box>

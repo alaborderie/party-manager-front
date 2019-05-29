@@ -29,11 +29,15 @@ display: flex;
 flex-direction: row;
 `;
 
-function GroupSummary(props: GroupInterface) {
+export interface GroupSummaryProps extends GroupInterface {
+  onClick?: Function;
+}
+
+function GroupSummary(props: GroupSummaryProps) {
   return (
-    <GroupContainer flexDirection="row" bg="secondary2" color="primary0">
+    <GroupContainer flexDirection="row" bg="secondary2" color="primary0" onClick={props.onClick}>
       <ImageContainer>
-        <img alt="background_img" src={props.background_img} />
+        {props.background_img && <img alt="background_img" src={props.background_img} />}
       </ImageContainer>
       <ContentContainer>
         <h3>{props.name}</h3>

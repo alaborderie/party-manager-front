@@ -1,8 +1,9 @@
 import React from 'react';
+import {Container} from "../components";
 
 function Home() {
   return (
-    <div>
+    <Container>
       <h1>Bienvenue sur Party Manager !</h1>
       <h3>Todo: </h3>
       <ul>
@@ -13,7 +14,7 @@ function Home() {
         <li>Checklist</li>
         <li>Gestion droits</li>
       </ul>
-    </div>
+    </Container>
   )
 }
 
