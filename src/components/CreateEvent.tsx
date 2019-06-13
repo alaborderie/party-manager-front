@@ -11,16 +11,17 @@ import Toast from "./Toast";
 import {UserContext} from "../contexts/UserContext";
 import {api} from "../helpers/api";
 
-interface EventInterface {
+export interface EventInterface {
+  id?: number;
   name: string;
   description: string;
   start_date: Date;
   end_date: Date;
   place: string;
-  background_img?: File;
+  background_img?: string;
 }
 
-function CreateEvent() {
+function CreateEvent(props: any) {
   const [loading, setLoading] = useState(false);
   const user = useContext(UserContext);
   const schema = Yup.object().shape({
@@ -40,12 +41,13 @@ function CreateEvent() {
     if (user && user.token) {
       setLoading(true);
       try {
-        const {data} = await api(user.token).post('/events', values);
+        const {data} = await api(user.token).post('/events', {event: {...values}, tmdb: null});
         console.log(data);
         Toast.fire({
           title: 'Événement créé !',
           type: 'success'
         });
+        props.callback()
       } catch(err) {
         console.error(err);
         Toast.fire({
@@ -69,7 +71,9 @@ function CreateEvent() {
         description: '',
         start_date: new Date(),
         end_date: new Date(),
-        place: ''
+        place: '',
+        creator: user ? user.id : null,
+        group: props.groupId
       }}
       validationSchema={schema}
       onSubmit={handleSubmit}

@@ -5,7 +5,7 @@ export interface IUserContext {
   firstName?: string;
   lastName?: string;
   token?: string;
-  user_id?: string;
+  id?: string;
   signIn?: Function;
   signOut?: Function;
 }

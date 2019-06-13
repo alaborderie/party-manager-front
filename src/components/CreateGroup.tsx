@@ -8,11 +8,15 @@ import Spinner from "./Spinner";
 import Toast from "./Toast";
 import {UserContext} from "../contexts/UserContext";
 import {api} from "../helpers/api";
+import {EventInterface} from "./CreateEvent";
 
 export interface GroupInterface {
+  id?: number;
   name: string;
   description: string;
   background_img?: string;
+  users?: any[];
+  events?: EventInterface[];
 }
 
 function CreateGroup(props: any) {
