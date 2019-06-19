@@ -1,5 +1,5 @@
-import React, {useContext, useState} from 'react';
-import {Formik, Form, FormikProps, Field, FormikActions} from "formik";
+import React, { useContext, useState } from 'react';
+import { Formik, Form, FormikProps, Field, FormikActions } from "formik";
 import * as Yup from 'yup';
 import DatePicker from 'react-datepicker';
 import fr from 'date-fns/locale/fr';
@@ -8,8 +8,8 @@ import FormField from "./FormField";
 import Button from "./Button";
 import Spinner from "./Spinner";
 import Toast from "./Toast";
-import {UserContext} from "../contexts/UserContext";
-import {api} from "../helpers/api";
+import { UserContext, IUserContext } from "../contexts/UserContext";
+import { api } from "../helpers/api";
 
 export interface EventInterface {
   id?: number;
@@ -19,6 +19,7 @@ export interface EventInterface {
   end_date: Date;
   place: string;
   background_img?: string;
+  users?: IUserContext[];
 }
 
 function CreateEvent(props: any) {
@@ -41,14 +42,14 @@ function CreateEvent(props: any) {
     if (user && user.token) {
       setLoading(true);
       try {
-        const {data} = await api(user.token).post('/events', {event: {...values}, tmdb: null});
+        const { data } = await api(user.token).post('/events', { event: { ...values }, tmdb: null });
         console.log(data);
         Toast.fire({
           title: 'Événement créé !',
           type: 'success'
         });
         props.callback()
-      } catch(err) {
+      } catch (err) {
         console.error(err);
         Toast.fire({
           title: err.toString(),
@@ -78,7 +79,7 @@ function CreateEvent(props: any) {
       validationSchema={schema}
       onSubmit={handleSubmit}
     >
-      {({isValid, values, setFieldValue}: FormikProps<EventInterface>) => (
+      {({ isValid, values, setFieldValue }: FormikProps<EventInterface>) => (
         <Form>
           <Field label="Nom" placeholder="Ciné" type="text" name="name" component={FormField} />
           <br />

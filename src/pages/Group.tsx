@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useState, useEffect, useContext} from 'react';
-import {api} from "../helpers/api";
-import {UserContext} from "../contexts/UserContext";
-import {Toast, Spinner, Button, Container} from "../components";
-import CreateGroup, {GroupInterface} from "../components/CreateGroup";
+import React, { useState, useEffect, useContext } from 'react';
+import { api } from "../helpers/api";
+import { UserContext } from "../contexts/UserContext";
+import { Toast, Spinner, Button, Container } from "../components";
+import { GroupInterface } from "../components/CreateGroup";
 import EventSummary from "../components/EventSummary";
-import {FaPlus} from "react-icons/fa";
-import {Flex} from "rebass";
+import { FaPlus } from "react-icons/fa";
+import { Flex } from "rebass";
 import CreateEvent from "../components/CreateEvent";
 
 function Group(props: any) {
@@ -33,6 +33,10 @@ function Group(props: any) {
     setCreate(!create)
   }
 
+  function handleClickGoToEvent(groupId?: number, eventId?: number) {
+    props.history.push('/group/' + groupId + '/event/' + eventId);
+  }
+
   if (!group) {
     return <Spinner />
   }
@@ -43,29 +47,29 @@ function Group(props: any) {
       <p>Enjoy your stay.</p>
       <Flex>
         <Button
-            rounded
-            bg="primary0"
-            color="success"
-            onClick={handleClickCreateEvent}
+          rounded
+          bg="primary0"
+          color="success"
+          onClick={handleClickCreateEvent}
         >
           <FaPlus color="success" />
         </Button>
       </Flex>
       {create && (
-          <React.Fragment>
-            <br />
-            <hr />
-            <br />
-            <CreateEvent groupId={group.id} callback={fetchGroup}/>
-            <br />
-            <hr />
-            <br />
-          </React.Fragment>
+        <React.Fragment>
+          <br />
+          <hr />
+          <br />
+          <CreateEvent groupId={group.id} callback={fetchGroup} />
+          <br />
+          <hr />
+          <br />
+        </React.Fragment>
       )}
       {!!group.events ? (
-          group.events.map(event => (
-              <EventSummary {...event} key={event.id} />
-          ))
+        group.events.map(event => (
+          <EventSummary {...event} onClick={() => handleClickGoToEvent(group.id, event.id)} key={event.id} />
+        ))
       ) : ""}
     </Container>
   )

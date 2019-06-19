@@ -4,6 +4,7 @@ import Signin from "./pages/Signin";
 import Account from "./pages/Account";
 import Groups from "./pages/Groups";
 import Group from "./pages/Group";
+import Event from "./pages/Event";
 
 export interface IRoute {
   exact?: boolean;
@@ -27,7 +28,8 @@ export const loggedOutRoutes: Array<IRoute> = [
 ];
 
 export const hiddenRoutes: Array<IRoute> = [
-  { to: '/group/:id', title: 'Groupe', component: Group },
+  { exact: true, to: '/group/:id', title: 'Groupe', component: Group },
+  { to: '/group/:groupId/event/:id', title: 'Event', component: Event }
 ];
 
 export const allRoutes: Array<IRoute> = routes.concat(loggedInRoutes, loggedOutRoutes, hiddenRoutes);
